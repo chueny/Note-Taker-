@@ -1,4 +1,4 @@
-console.log("index.js is loading!");
+// console.log("index.js is loading!");
 const $noteTitle = $(".note-title");
 const $noteText = $(".note-textarea");
 const $saveNoteBtn = $(".save-note");
