@@ -3,19 +3,19 @@ const bodyParser = require ("body-parser");
 const path = require("path");
 const fs = require('fs');
 const util = require('util');
-const { response } = require("express");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("public"));
+app.use(bodyParser.json()); // middleware for parsing JSON files
+app.use(express.urlencoded({ extended: true })); // something about URL encoding???
+app.use(express.json()); // ???
+app.use(express.static("public")); //allows us to access files in public directory
 
-// const data = fs.readFileSync(path.join(__dirname, "/db/db.json"), 'utf-8');
-// const db = JSON.parse(data);
-// console.log(db);
+let db = [JSON.parse(fs.readFileSync(path.join(__dirname, "./db/db.json"), 'utf8'))];
+//const dbFile = fs.readFileSync(path.join(__dirname, "./db/db.json"), 'utf-8');
+//let db = JSON.parse(dbFile);
+console.log("checking what is stored in the db object: " + JSON.stringify(db)); //not working yet.
 
 
 //HTML ROUTES ==========================================================
@@ -36,20 +36,26 @@ app.get("*", function(req, res) {
 //API ROUTES =========================================================
   app.get("/api/notes", function(req, res) {
     //should read the db.json file and return all saved notes as JSON
-    //let newNote= req.body;
-    //  let data2 = res.json(data);
-    //   // console.log("API GET: notes is working"+ newNote);
-    //  console.log("API GET: notes is working"+ data);
+    let newNote= req.body;
+     console.log("API GET: notes is working"+ newNote);
    
   });
  
   app.post("/api/notes", function(req, res) {
-    
+    //should recieve a new note to save on the request body, add to db.json sfile and return
+    //the new note to client
+
     let newNote= req.body;
     db.push(newNote);
-    //let data = JSON.stringify(newNote);
 
-    // fs.writeFile('db.json', newNote, finished);
+    console.log("data is: " + JSON.stringify(newNote));
+    
+    //fs.writeFile('db.json', newNote, finished);
+
+    fs.writeFile('./db/db.json', JSON.stringify(db), function (err) {
+      if (err) return console.log(err);
+      console.log('wrote to db');
+    });
     // function finished (err){
     //   console.log('all set');
     // }

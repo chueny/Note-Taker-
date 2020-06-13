@@ -18,13 +18,13 @@ const getNotes = () => {
 
 // A function for saving a note to the db
 const saveNote = (note) => {
+  console.log("after save file");
   return $.ajax({
     url: "/api/notes",
     data: note,
     method: "POST",
   });
 };
-console.log("after save file");
 
 // A function for deleting a note from the db
 const deleteNote = (id) => {
