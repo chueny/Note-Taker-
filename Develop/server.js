@@ -33,7 +33,6 @@ app.get("/db", function(req, res) {
 });
 
 
-
 //API ROUTES =========================================================
 app.get("/api/notes", function(req, res) {
   //return data to user
